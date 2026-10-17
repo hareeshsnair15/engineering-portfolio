@@ -54,23 +54,30 @@ source code, and technical learning.
 
 ## Featured Projects
 
-### 1. Smart Shopping Trolley
+## Featured Projects
 
-An ongoing engineering project exploring RFID-based product identification,
-trolley weight measurement, automated billing, and inventory monitoring.
+### 1. Smart Shopping Trolley with Autonomous Navigation
 
-**Technologies:** RFID, embedded systems, Python, databases
+A completed engineering project that integrates smart shopping and autonomous
+robotics into a single trolley system. The project combines RFID-based product
+identification, weight measurement, automated billing, inventory monitoring,
+and autonomous navigation.
 
-**Status:** In progress; prototype components tested.
+The system incorporates embedded hardware for product identification and
+weight measurement, alongside a ROS 2-based robotics framework for environment
+mapping and navigation.
 
-### 2. ROS 2 Autonomous Robot
+**Key Features**
+- RFID-based product identification.
+- Automated billing and inventory monitoring.
+- LiDAR-based environment mapping and SLAM.
+- Autonomous navigation using ROS 2 and Nav2.
+- Gazebo-based environment simulation.
 
-An ongoing robotics project involving LiDAR-based mapping, simulation,
-and autonomous navigation using ROS 2 and Gazebo.
+**Technologies:** RFID, Embedded Systems, ESP32, Python, Databases,
+ROS 2, Ubuntu, Gazebo, LiDAR, SLAM, Nav2.
 
-**Technologies:** ROS 2, Ubuntu, Gazebo, LiDAR, SLAM, Nav2
-
-**Status:** In progress.
+**Status:** Completed.
 
 ### 3. Wearable Health Monitoring System
 
