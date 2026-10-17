@@ -47,3 +47,15 @@ smart-shopping-trolley/
 ├── firmware/
 ├── hardware/
 └── images/
+## Mapping Results
+
+The following maps were generated during the Smart Shopping Trolley's
+LiDAR-based mapping and SLAM development.
+
+### Map 1
+
+![Smart Shopping Trolley SLAM Map 1](maps/my_house_map.jpg)
+
+### Map 2
+
+![Smart Shopping Trolley SLAM Map 2](maps/my_house_map1.jpg)
