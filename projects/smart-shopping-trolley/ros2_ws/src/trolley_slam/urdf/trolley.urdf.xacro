@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="smart_trolley">
+
+  <!-- Define materials for visualization -->
+  <material name="blue">
+    <color rgba="0.1 0.4 0.8 1.0"/>
+  </material>
+  
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1.0"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1.0"/>
+  </material>
+
+  <material name="white">
+    <color rgba="0.9 0.9 0.9 1.0"/>
+  </material>
+
+  <material name="yellow">
+    <color rgba="0.8 0.8 0.1 1.0"/>
+  </material>
+
+  <!-- base_footprint (projection of base_link on the ground) -->
+  <link name="base_footprint"/>
+
+  <!-- base_link (chassis center at the bottom of the base box) -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.30" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.33 0.60"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.30" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.45 0.33 0.60"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="15.0"/>
+      <origin xyz="0 0 0.30" rpy="0 0 0"/>
+      <inertia ixx="0.58" ixy="0.0" ixz="0.0" iyy="0.70" iyz="0.0" izz="0.38"/>
+    </inertial>
+  </link>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.08" rpy="0 0 0"/> <!-- base_footprint is on the ground, base_link is offset by wheel radius (8cm) -->
+  </joint>
+
+  <!-- Rear Left Drive Wheel -->
+  <link name="left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.04"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel"/>
+    <origin xyz="-0.15 0.185 0.0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- Rear Right Drive Wheel -->
+  <link name="right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.04"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.08" length="0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+    <origin xyz="-0.15 -0.185 0.0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- Front Caster Wheel (Sphere support) -->
+  <link name="caster_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="caster_wheel_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_wheel"/>
+    <!-- Positioned front-middle. Bottom of caster touches ground (z = -0.03 relative to base_link) -->
+    <origin xyz="0.15 0.0 -0.03" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Lidar Vertical Mast (Blue Column) -->
+  <link name="lidar_mast">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.015" length="0.20"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.015" length="0.20"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="lidar_mast_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_mast"/>
+    <!-- Mounted on front-middle of top plate (x = 0.15, z = 0.70 extending up) -->
+    <origin xyz="0.15 0.0 0.70" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Diagonal Support Brace (Yellow Rod) -->
+  <link name="support_brace">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.008" length="0.58"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+  </link>
+
+  <joint name="support_brace_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="support_brace"/>
+    <!-- Angled bracing rod connecting top of mast to back of chassis box -->
+    <origin xyz="0.0 0.0 0.55" rpy="0 -0.54 0"/>
+  </joint>
+
+  <!-- Lidar Sensor Placement -->
+  <!-- YDLidar X2 is mounted at the top of the mast -->
+  <link name="laser_frame">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <parent link="lidar_mast"/>
+    <child link="laser_frame"/>
+    <!-- Mounted directly on top of the 20cm mast (offset z = 0.12 relative to mast center) -->
+    <origin xyz="0.0 0.0 0.12" rpy="0 0 0"/>
+  </joint>
+
+</robot>
